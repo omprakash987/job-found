@@ -52,8 +52,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
             token: token,
         });
 
-        response.headers.set('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600;`);
-        return response; 
+        response.cookies.set("token",token,{
+            httpOnly:true,
+        })
+        return response
 
     } catch (error) {
         return NextResponse.json({
