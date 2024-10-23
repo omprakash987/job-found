@@ -1,10 +1,61 @@
+// app/api/profile/route.ts
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest) {
+
+const getUserFromToken = (request: NextRequest) => {
   try {
+    const token = request.cookies.get("token")?.value;
+    if (!token) return null;
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      id: number;
+      email: string;
+    };
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
+// GET profile
+export async function GET(request: NextRequest) {
+  try {
+    const user = getUserFromToken(request);
+    if (!user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const profile = await prisma.userProfile.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (!profile) {
+      return NextResponse.json({ message: "Profile not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(profile);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Failed to fetch profile" },
+      { status: 500 }
+    );
+  }
+}
+
+// POST create profile
+export async function POST(request: NextRequest) {
+  try {
+    const user = getUserFromToken(request);
+    if (!user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const {
       firstName,
       lastName,
@@ -15,97 +66,88 @@ export async function POST(req: NextRequest) {
       education,
       achievements,
       socialLinks,
-      userId,
-    } = await req.json();
+    } = await request.json();
 
-    if (!userId) {
-      return NextResponse.json({
-        message: "User ID is required",
-      }, { status: 400 });
+    // Check if profile already exists
+    const existingProfile = await prisma.userProfile.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (existingProfile) {
+      return NextResponse.json(
+        { message: "Profile already exists" },
+        { status: 400 }
+      );
     }
 
-    const userProfile = await prisma.userProfile.upsert({
-      where: { userId: parseInt(userId) },
-      update: {
+    const profile = await prisma.userProfile.create({
+      data: {
+        userId: user.id,
         firstName,
         lastName,
         profession,
         bio,
         skills,
-        experience: {
-          deleteMany: {}, // Delete all current experiences
-          create: experience, // Add new experiences
-        },
-        education: {
-          deleteMany: {}, // Delete all current education records
-          create: education, // Add new education records
-        },
-        achievements: {
-          deleteMany: {}, // Delete all current achievements
-          create: achievements, // Add new achievements
-        },
-        socialLinks: {
-          deleteMany: {}, // Delete all current social links
-          create: socialLinks, // Add new social links
-        },
-      },
-      create: {
-        firstName,
-        lastName,
-        profession,
-        bio,
-        skills,
-        experience: {
-          create: experience, // Create new experience
-        },
-        education: {
-          create: education, // Create new education records
-        },
-        achievements: {
-          create: achievements, // Create new achievements
-        },
-        socialLinks: {
-          create: socialLinks, // Create new social links
-        },
-        user: {
-          connect: { id: parseInt(userId) }, // Connect to existing user
-        },
+        experience,
+        education,
+        achievements,
+        socialLinks,
       },
     });
 
-    return NextResponse.json({
-      message: 'User profile updated successfully',
-      userProfile,
-    });
-
+    return NextResponse.json(profile, { status: 201 });
   } catch (error) {
-    console.error("Error during profile update: ", error);
-    return NextResponse.json({
-      message: "Something went wrong",
-    }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to create profile" },
+      { status: 500 }
+    );
   }
 }
 
-export async function GET(req: NextRequest) {
+// PUT update profile
+export async function PUT(request: NextRequest) {
   try {
-    const profile = await prisma.userProfile.findMany({
-      include: {
-        user: true,
-        experience: true,
-        education: true,
-        achievements: true,
-        socialLinks: true,
+    const user = getUserFromToken(request);
+    if (!user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const {
+      firstName,
+      lastName,
+      profession,
+      bio,
+      skills,
+      experience,
+      education,
+      achievements,
+      socialLinks,
+    } = await request.json();
+
+    const profile = await prisma.userProfile.update({
+      where: {
+        userId: user.id,
+      },
+      data: {
+        firstName,
+        lastName,
+        profession,
+        bio,
+        skills,
+        experience,
+        education,
+        achievements,
+        socialLinks,
       },
     });
 
-    return NextResponse.json({
-      message: "User profile fetched successfully",
-      profile,
-    }, { status: 200 });
-  } catch (error: any) {
-    console.error("Error during profile fetch: ", error);
-    return NextResponse.json({
-      message: "Something went wrong during profile fetch",
-    }, { status: 500 });
+    return NextResponse.json(profile);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Failed to update profile" },
+      { status: 500 }
+    );
   }
 }

@@ -5,10 +5,8 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const isPublicPath =
     path === "/jobs/signin" || path === "/jobs/signup" || "/"; 
-
   const token = request.cookies.get("token")?.value || "";
   console.log('token : ' , token); 
-
 
   if (isPublicPath && token) {
     return NextResponse.redirect(new URL("/jobs/home", request.nextUrl));
@@ -19,5 +17,5 @@ export function middleware(request: NextRequest) {
   }
 }
 export const config = {
-  matcher: ["/", "/home", "/jobs/signin", "/jobs/signup"],
+  matcher: ["/", "/jobs/signin", "/jobs/signup"],
 };

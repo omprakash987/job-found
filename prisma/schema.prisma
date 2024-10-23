@@ -30,10 +30,10 @@ model UserProfile {
   profession    String?
   bio           String?
   skills        String[]
-  experience    Experience[]
-  education     Education[]
-  achievements  Achievement[]
-  socialLinks   SocialLink[]
+  experience   String[] 
+  education     String[] 
+  achievements  String[]
+  socialLinks   String[]
 }
 
 model Company {
@@ -59,7 +59,7 @@ model CompanyProfile {
   website       String?
   location      String?
   logo          String?
-  socialLinks   SocialLink[]
+  socialLinks   String[]
 }
 
 model Job {
@@ -90,46 +90,8 @@ model JobApplication {
   updatedAt     DateTime  @updatedAt
 }
 
-model Experience {
-  id            Int       @id @default(autoincrement())
-  userProfileId Int
-  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
-  title         String
-  company       String
-  startDate     DateTime
-  endDate       DateTime?
-  description   String?
-}
-
-model Education {
-  id            Int       @id @default(autoincrement())
-  userProfileId Int
-  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
-  institution   String
-  degree        String
-  fieldOfStudy  String
-  startDate     DateTime
-  endDate       DateTime?
-}
-
-model Achievement {
-  id            Int       @id @default(autoincrement())
-  userProfileId Int
-  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
-  title         String
-  description   String?
-  date          DateTime?
-}
-
-model SocialLink {
-  id            Int       @id @default(autoincrement())
-  userProfileId Int?
-  userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
-  companyProfileId Int?
-  companyProfile CompanyProfile? @relation(fields: [companyProfileId], references: [id])
-  platform      String
-  url           String
-}
+ 
+ 
 
 enum Role {
   ADMIN
