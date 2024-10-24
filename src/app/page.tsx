@@ -8,7 +8,7 @@ export default function Home() {
 router.push('/jobs/signup')
   }
   const handlehire = ()=>{
-    router.push('/company')
+    router.push('/company/signup')
       }
   return (
     <div className=" flex justify-center items-center h-screen">

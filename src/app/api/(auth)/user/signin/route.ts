@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             }, { status: 400 })
         }
 
-        const token = jwt.sign({
+        const job_token = jwt.sign({
             id: user.id,
             email: user.email,
 
@@ -49,10 +49,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         const response = NextResponse.json({
             message: 'User logged in successfully',
-            token: token,
+            job_token: job_token,
         });
 
-        response.cookies.set("token",token,{
+        response.cookies.set("job_token",job_token,{
             httpOnly:true,
         })
         return response

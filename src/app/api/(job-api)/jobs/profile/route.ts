@@ -1,4 +1,3 @@
-// app/api/profile/route.ts
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
@@ -8,7 +7,7 @@ const prisma = new PrismaClient();
 
 const getUserFromToken = (request: NextRequest) => {
   try {
-    const token = request.cookies.get("token")?.value;
+    const token = request.cookies.get("job_token")?.value;
     if (!token) return null;
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
@@ -21,7 +20,6 @@ const getUserFromToken = (request: NextRequest) => {
   }
 };
 
-// GET profile
 export async function GET(request: NextRequest) {
   try {
     const user = getUserFromToken(request);
@@ -48,7 +46,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST create profile
 export async function POST(request: NextRequest) {
   try {
     const user = getUserFromToken(request);
@@ -68,7 +65,6 @@ export async function POST(request: NextRequest) {
       socialLinks,
     } = await request.json();
 
-    // Check if profile already exists
     const existingProfile = await prisma.userProfile.findUnique({
       where: {
         userId: user.id,
@@ -106,7 +102,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PUT update profile
 export async function PUT(request: NextRequest) {
   try {
     const user = getUserFromToken(request);

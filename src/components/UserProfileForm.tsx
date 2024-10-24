@@ -8,12 +8,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { NextResponse } from 'next/server';
 
-const UserProfileForm = (res:NextResponse) => {
+const UserProfileForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   
   const [profile, setProfile] = useState({
+    id:'',
     firstName: '',
     lastName: '',
     profession: '',
@@ -40,6 +41,7 @@ const UserProfileForm = (res:NextResponse) => {
   const fetchProfile = async () => {
     try {
       const response = await fetch('/api/jobs/profile');
+      console.log("response from fetchProfile", response); 
       if (!response.ok) {
         if (response.status === 404) {
            
@@ -90,11 +92,11 @@ const UserProfileForm = (res:NextResponse) => {
     }
   };
 
-  const addItem = (field, value) => {
+  const addItem = (field:keyof typeof profile, value:string) => {
     if (value.trim()) {
       setProfile(prev => ({
         ...prev,
-        [field]: [...prev[field], value.trim()]
+        [field]:[...(prev[field] as string[]), value.trim()]  
       }));
       setNewItem(prev => ({
         ...prev,
@@ -103,10 +105,10 @@ const UserProfileForm = (res:NextResponse) => {
     }
   };
 
-  const removeItem = (field, index) => {
+  const removeItem = (field:keyof typeof profile, index:number) => {
     setProfile(prev => ({
       ...prev,
-      [field]: prev[field].filter((_, i) => i !== index)
+      [field]:(prev[field] as string[]).filter((_, i) => i !== index) 
     }));
   };
 
@@ -128,7 +130,7 @@ const UserProfileForm = (res:NextResponse) => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Basic Information */}
+ 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">First Name *</label>
@@ -167,7 +169,7 @@ const UserProfileForm = (res:NextResponse) => {
             />
           </div>
 
-          {/* Skills Section */}
+         
           <div className="space-y-2">
             <label className="text-sm font-medium">Skills</label>
             <div className="flex gap-2">
@@ -204,7 +206,7 @@ const UserProfileForm = (res:NextResponse) => {
             </div>
           </div>
 
-          {/* Experience Section */}
+         
           <div className="space-y-2">
             <label className="text-sm font-medium">Experience</label>
             <div className="flex gap-2">
@@ -239,7 +241,7 @@ const UserProfileForm = (res:NextResponse) => {
             </div>
           </div>
 
-          {/* Education Section */}
+        
           <div className="space-y-2">
             <label className="text-sm font-medium">Education</label>
             <div className="flex gap-2">
@@ -273,8 +275,7 @@ const UserProfileForm = (res:NextResponse) => {
               ))}
             </div>
           </div>
-
-          {/* Achievements Section */}
+ 
           <div className="space-y-2">
             <label className="text-sm font-medium">Achievements</label>
             <div className="flex gap-2">
@@ -309,7 +310,7 @@ const UserProfileForm = (res:NextResponse) => {
             </div>
           </div>
 
-          {/* Social Links Section */}
+         
           <div className="space-y-2">
             <label className="text-sm font-medium">Social Links</label>
             <div className="flex gap-2">

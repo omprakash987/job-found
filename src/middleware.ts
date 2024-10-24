@@ -4,15 +4,31 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const isPublicPath =
-    path === "/jobs/signin" || path === "/jobs/signup" || "/"; 
-  const token = request.cookies.get("token")?.value || "";
-  console.log('token : ' , token); 
+    path === "/jobs/signin" || path === "/jobs/signup" || "/" ; 
+    const isCompanyPublicPath = path === "/company/signin" || path === "/company/signup" || "/";
 
-  if (isPublicPath && token) {
+  const job_token = request.cookies.get("token")?.value || "";
+  console.log('token : ' , job_token); 
+
+  const company_token = request.cookies.get("company_token")?.value || ""; 
+  console.log('company token : ' , company_token);
+
+
+
+
+  if (isCompanyPublicPath && company_token) {
+    return NextResponse.redirect(new URL("/company/home", request.nextUrl));
+  }
+
+  if (!isCompanyPublicPath && !company_token) {
+    return NextResponse.redirect(new URL("/company/signin", request.nextUrl));
+  }
+  
+  if (isPublicPath && job_token) {
     return NextResponse.redirect(new URL("/jobs/home", request.nextUrl));
   }
 
-  if (!isPublicPath && !token) {
+  if (!isPublicPath && !job_token) {
     return NextResponse.redirect(new URL("/jobs/signin", request.nextUrl));
   }
 }
