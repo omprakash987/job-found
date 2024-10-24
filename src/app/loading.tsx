@@ -5,7 +5,7 @@ const Loading = () => {
     return (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <img
-                src="/public/loader.gif" 
+                src="/loader.gif" 
                 alt="Loading..."
                 style={{ width: '100px', height: '100px' }} 
             />

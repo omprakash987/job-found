@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
     path === "/jobs/signin" || path === "/jobs/signup" || "/" ; 
     const isCompanyPublicPath = path === "/company/signin" || path === "/company/signup" || "/";
 
-  const job_token = request.cookies.get("token")?.value || "";
+  const job_token = request.cookies.get("job_token")?.value || "";
   console.log('token : ' , job_token); 
 
   const company_token = request.cookies.get("company_token")?.value || ""; 

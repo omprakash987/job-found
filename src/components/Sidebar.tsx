@@ -13,7 +13,7 @@ const Sidebar = () => {
         <Link href="/jobs/profile" className="flex items-center p-4 hover:bg-gray-700">
           <FaUser className="mr-3" /> Profile
         </Link>
-        <Link href="/jobs/home" className="flex items-center p-4 hover:bg-gray-700">
+        <Link href="/jobs/job" className="flex items-center p-4 hover:bg-gray-700">
           <FaBriefcase className="mr-3" /> Job
         </Link>
         <Link href="/jobs/applied" className="flex items-center p-4 hover:bg-gray-700">
