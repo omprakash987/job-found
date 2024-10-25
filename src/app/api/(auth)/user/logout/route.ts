@@ -7,7 +7,7 @@ export async function GET(req:NextRequest,res:NextResponse){
         message:"user loged out", 
         success:true
     }); 
-    response.cookies.set('token','',{
+    response.cookies.set('job_token','',{
         httpOnly:true,expires:new Date(0)
     })
     return response

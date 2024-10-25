@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
 
 const page = () => {
     const router = useRouter(); 
@@ -26,6 +27,7 @@ const page = () => {
 
         }
         catch(error:any){
+            toast.error("user already exists");
             console.log(error); 
             
         }

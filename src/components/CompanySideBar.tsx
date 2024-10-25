@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import React from 'react';
-import { FaHome, FaUser, FaBriefcase, FaClipboardCheck, FaEnvelope, FaCompass } from 'react-icons/fa'; // Importing icons
-
+import { FaHome, FaUser, FaBriefcase, FaClipboardCheck, FaEnvelope, FaCompass } from 'react-icons/fa'; 
+import { FaWpforms } from "react-icons/fa";
 const CompanySideBar = () => {
   return (
     <div className="flex flex-col w-64 min-h-screen bg-gray-800 text-white overflow-hidden">
@@ -20,6 +20,9 @@ const CompanySideBar = () => {
         </Link>
         <Link href="/company/created-jobs" className="flex items-center p-4 hover:bg-gray-700">
           <FaClipboardCheck className="mr-3" /> created jobs
+        </Link>
+        <Link href="/company/applications" className="flex items-center p-4 hover:bg-gray-700">
+        <FaWpforms className=' mr-3' /> job applications
         </Link>
         <Link href="/company/message" className="flex items-center p-4 hover:bg-gray-700">
           <FaEnvelope className="mr-3" /> Message

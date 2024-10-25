@@ -5,6 +5,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 
 const page = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const page = () => {
     email,password
   }); 
   console.log("user created from page signup : " , response);
+  toast.success("signed in successfully");
   router.push('/jobs/home'); 
   
  } catch (error) {
