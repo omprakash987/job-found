@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
 
 
   if (isCompanyPublicPath && company_token) {
-    return NextResponse.redirect(new URL("/company/home", request.nextUrl));
+    return NextResponse.redirect(new URL("/company/profile", request.nextUrl));
   }
 
   if (!isCompanyPublicPath && !company_token) {
@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
   }
   
   if (isPublicPath && job_token) {
-    return NextResponse.redirect(new URL("/jobs/home", request.nextUrl));
+    return NextResponse.redirect(new URL("/jobs/profile", request.nextUrl));
   }
 
   if (!isPublicPath && !job_token) {

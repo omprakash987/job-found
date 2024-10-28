@@ -37,7 +37,7 @@ export default function RootLayout({
           <div className="fixed top-16 h-full"> 
             <Sidebar />
           </div>
-          <div className="ml-64 mt-16 overflow-y-auto">  
+          <div className="ml-80 mt-40 overflow-y-auto">  
             {children}
           </div>
         </div>

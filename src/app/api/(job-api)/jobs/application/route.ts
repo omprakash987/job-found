@@ -1,4 +1,4 @@
-// app/api/jobs/application/route.ts
+ 
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";

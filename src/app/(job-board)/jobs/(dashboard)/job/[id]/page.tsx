@@ -86,7 +86,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
 
       // Redirect to applications page after successful submission
       setTimeout(() => {
-        router.push('/jobs/applications');
+        router.push('/jobs/applied');
       }, 2000);
 
     } catch (error) {

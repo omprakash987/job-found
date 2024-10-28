@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 import bcrypt from "bcrypt"; 
-import toast from "react-hot-toast";
 
 const prisma = new PrismaClient(); 
 

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react'
 import { FaBell, FaUserCircle } from 'react-icons/fa';
 import axios from "axios";
+import Image from "next/image";
 
 const CompanyNavbar = () => {
     const router = useRouter(); 
@@ -26,8 +27,10 @@ const CompanyNavbar = () => {
 
     <div className="flex items-center justify-between p-4 bg-gray-800 text-white"> 
 
-      <div className="logo"> 
-        <h1 onClick={handleHomePage} className="text-xl font-bold cursor-pointer">MyLogo</h1>
+<div className="logo"> 
+        <h1 onClick={handleHomePage} className="text-xl font-bold cursor-pointer">
+        <Image className=" rounded-full pt-10 ml-5" src="/logo.jpeg" width="80" height="80" alt="my logo"></Image>
+        </h1>
 
       </div>
 

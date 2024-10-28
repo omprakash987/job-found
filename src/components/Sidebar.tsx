@@ -4,7 +4,7 @@ import { FaHome, FaUser, FaBriefcase, FaClipboardCheck, FaEnvelope, FaCompass } 
 
 const Sidebar = () => {
   return (
-    <div className="flex flex-col w-64 min-h-screen bg-gray-800 text-white overflow-hidden">
+    <div className="flex flex-col w-64 min-h-screen bg-gray-800 text-white overflow-hidden mt-4">
        
       <nav className="flex flex-col mt-4">
         <Link href="/jobs/home" className="flex items-center p-4 hover:bg-gray-700">

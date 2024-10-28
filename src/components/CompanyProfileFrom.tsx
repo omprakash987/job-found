@@ -16,11 +16,12 @@ const CompanyProfileForm = () => {
     description: '',
     industry: '',
     size: '',
-    foundedYear: '',
+    foundedYear:'',
     website: '',
     location: '',
     logo: '',
-    socialLinks: ''
+    socialLinks: [''],
+    id:'',
   });
 
   const industries = [
@@ -62,7 +63,7 @@ const CompanyProfileForm = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProfile(prev => ({
       ...prev,
@@ -70,7 +71,7 @@ const CompanyProfileForm = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
     setError('');
@@ -82,7 +83,11 @@ const CompanyProfileForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(profile),
+        body: JSON.stringify({
+          ...profile,
+          foundedYear: parseInt(profile.foundedYear, 10) ,
+          
+        }),
       });
 
       if (!response.ok) {
@@ -92,7 +97,7 @@ const CompanyProfileForm = () => {
 
       // Refresh the profile data
       await fetchProfile();
-    } catch (error) {
+    } catch (error:any) {
       setError(error.message);
     } finally {
       setSaving(false);
@@ -146,7 +151,12 @@ const CompanyProfileForm = () => {
             <label className="text-sm font-medium">Industry</label>
             <Select 
               value={profile.industry} 
-              onValueChange={(value) => handleChange({ target: { name: 'industry', value }})}
+              onValueChange={(value) => {
+                setProfile(prev => ({
+                  ...prev,
+                  industry: value
+                }));
+              }}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select industry" />
@@ -165,7 +175,12 @@ const CompanyProfileForm = () => {
             <label className="text-sm font-medium">Company Size</label>
             <Select 
               value={profile.size} 
-              onValueChange={(value) => handleChange({ target: { name: 'size', value }})}
+              onValueChange={(value) => {
+                setProfile(prev => ({
+                  ...prev,
+                  size: value // Directly update the size
+                }));
+              }}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select company size" />

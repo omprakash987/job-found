@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { decode } from "punycode";
+ 
 
 const prisma = new PrismaClient();
 
