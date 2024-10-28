@@ -24,7 +24,7 @@ const Page = () => {
       router.push('/company/signin');
       toast.success(`Signup successful`);  
       console.log("Response from signup page:", response); 
-    } catch (error: any) {
+    } catch (error) {
       toast.error(`Error signing up`);
       console.log(error);
     }

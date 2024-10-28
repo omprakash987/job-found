@@ -60,7 +60,7 @@ const UserProfileForm = () => {
     }
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -85,8 +85,8 @@ const UserProfileForm = () => {
          
         fetchProfile();
       }
-    } catch (error:any) {
-      setError(error.message || 'Failed to save profile');
+    } catch (error) {
+      setError((error as Error).message || 'Failed to save profile');
     } finally {
       setLoading(false);
     }

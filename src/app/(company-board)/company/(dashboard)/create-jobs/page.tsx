@@ -2,7 +2,7 @@
 
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,24 +12,7 @@ import { AlertCircle, Loader2, Plus, Trash2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
  
-type Job = {
-  id: number;
-  title: string;
-  description: string;
-  requirements: string[];
-  salary?: string;
-  location?: string;
-  type: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP" | "FREELANCE";
-  experience: string;
-  endDate: string;
-  company: {
-    profile: {
-      name: string;
-      logo?: string;
-    } | null;
-  };
-  createdAt: string;
-};
+
 
 const JobForm = () => {
   const [loading, setSaving] = useState(false);
